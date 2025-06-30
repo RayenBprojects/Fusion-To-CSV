@@ -4,7 +4,11 @@
 
 import adsk.core, adsk.fusion, traceback
 
+generalFailFlag = False
+
 def run(context):
+    global generalFailFlag
+
     ui = None
     try:
         app = adsk.core.Application.get()
@@ -42,7 +46,8 @@ def run(context):
         ExportFile(path,posLst)
 
         #finish
-        ui.messageBox('Done')
+        if generalFailFlag == False:
+            ui.messageBox('Done')
         
     except:
         if ui:
@@ -102,9 +107,18 @@ def GetUnitCoefficient(des):
     return unitsMgr.convert(1, unitsMgr.internalUnits, defLenUnit)
 
 def ExportFile(path, lst):
+    app = adsk.core.Application.get()
+    ui = app.userInterface
+
     import csv
 
-    f = open(path, 'w')
-    writer = csv.writer(f, lineterminator='\n')
-    writer.writerows(lst)
-    f.close()
+    try:
+        f = open(path, 'w')
+        writer = csv.writer(f, lineterminator='\n')
+        writer.writerows(lst)
+        f.close()
+    except PermissionError:
+        ui.messageBox("Cannot Access File")
+        global generalFailFlag
+        generalFailFlag = True
+    
