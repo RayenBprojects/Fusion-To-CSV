@@ -19,7 +19,7 @@ def run(context):
         #all sketchPoint
         sktPnts = []
         for skt in skts:
-            sktPnts.extend(sktPnt for sktPnt in skt.sketchPoints if sktPnt != skt.originPoint)
+            sktPnts.extend(sktPnt for sktPnt in skt.sketchPoints if (sktPnt != skt.originPoint and isPointSelected(sktPnt.geometry)))
 
         if len(sktPnts) < 1:
             ui.messageBox('There are no points to export')
@@ -51,6 +51,19 @@ def run(context):
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
+
+def isPointSelected(desiredPointGeometry):
+    app = adsk.core.Application.get()
+    ui = app.userInterface
+    activeSelections = ui.activeSelections
+
+    for selection in activeSelections:
+        selectedEntity = selection.entity
+
+        if isinstance(selectedEntity, adsk.fusion.SketchPoint):
+            if selectedEntity.geometry.isEqualTo(desiredPointGeometry):
+                return True
+    return False
 
 #adsk.fusion.SketchPoint extension_method
 def GetRootPosition(self):
