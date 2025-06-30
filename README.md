@@ -1,4 +1,4 @@
-# ***ExportSketchPointsCoordinate***
+# ***FusionToCSV***
 This is a script for Autodesk software "Fusion360".
 
 Export Selected Point Coordinates to CSVfile.
