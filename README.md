@@ -1,7 +1,7 @@
 # ***ExportSketchPointsCoordinate***
 This is a script for Autodesk software "Fusion360".
 
-Export SketchPoints Coordinate to CSVfile.
+Export Selected SketchPoints Coordinate to CSVfile.
 
 
 # Installation
@@ -9,9 +9,10 @@ Please follow the instructions [here](https://knowledge.autodesk.com/support/fus
 Export SketchPoints Coordinate to CSVfile
 
 # Usage
-1. Display the sketch to be exported.
-2. Run the script.
-3. A dialog box appears. Enter an arbitrary path / file name.
+1. Display the sketch containing the desired points.
+2. Select the points to be exported.
+3. Run the script.
+4. A dialog box appears. Enter an arbitrary path / file name.
 
 # support
 The unit of the exported CSV file is the unit at the time of script execution.
