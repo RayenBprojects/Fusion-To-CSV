@@ -1,5 +1,5 @@
 #FusionAPI_python ExportSketchPointsCoordinate Ver0.0.3
-#Author-kantoku
+#Author-Rayen Ben Ismail (Forked from Kantoku)
 #Description-Export SketchPoints Coordinate to CSVfile
 
 import adsk.core, adsk.fusion, traceback
@@ -10,16 +10,12 @@ def run(context):
         app = adsk.core.Application.get()
         ui  = app.userInterface
         des = adsk.fusion.Design.cast(app.activeProduct)
+        activeSelections = ui.activeSelections
         
-        #displayed sketches
-        skts = [skt
-                for comp in des.allComponents if comp.isSketchFolderLightBulbOn
-                for skt in comp.sketches if skt.isVisible]
-
-        #all sketchPoint
         sktPnts = []
-        for skt in skts:
-            sktPnts.extend(sktPnt for sktPnt in skt.sketchPoints if (sktPnt != skt.originPoint and isPointSelected(sktPnt.geometry)))
+        for selection in activeSelections:
+            if selection.entity.objectType == adsk.fusion.SketchPoint.classType():
+                sktPnts.append(selection.entity)
 
         if len(sktPnts) < 1:
             ui.messageBox('There are no points to export')
@@ -51,19 +47,6 @@ def run(context):
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
-
-def isPointSelected(desiredPointGeometry):
-    app = adsk.core.Application.get()
-    ui = app.userInterface
-    activeSelections = ui.activeSelections
-
-    for selection in activeSelections:
-        selectedEntity = selection.entity
-
-        if isinstance(selectedEntity, adsk.fusion.SketchPoint):
-            if selectedEntity.geometry.isEqualTo(desiredPointGeometry):
-                return True
-    return False
 
 #adsk.fusion.SketchPoint extension_method
 def GetRootPosition(self):
