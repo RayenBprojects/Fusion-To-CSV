@@ -6,5 +6,6 @@
 		"":	"Export Selected Point Coordinates to CSVfile"
 	},
 	"supportedOS":	"windows|mac",
-	"editEnabled":	true
+	"editEnabled":	true,
+	"iconFilename":	"ScriptIcon.svg"
 }
